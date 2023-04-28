@@ -12,6 +12,7 @@ import AddTraining from './AddTraining';
 export default function CustomerList() {
     const [customers, setCustomers] = useState([]);
     const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState("");
 
     const [columnDefs] = useState([
         {field: 'firstname', sortable: true, filter: true, width: 140},
@@ -47,6 +48,7 @@ export default function CustomerList() {
             fetch(params.data.links[0].href, { method: 'DELETE'})
             .then(response => {
                 if (response.ok) {
+                    setMessage("Deleted succefully!");
                     setOpen(true);
                     getCustomers();
                 }
@@ -60,11 +62,12 @@ export default function CustomerList() {
         if (window.confirm('are you sure about that?'))
             fetch(ONETRAINING_URL, { 
                 method: 'POST',
-                header: {'Content-type': 'application/json'},
+                headers: {'Content-type': 'application/json'},
                 body: JSON.stringify(training)
             })
             .then(response => {
                 if (response.ok) {
+                    setMessage("Training added succefully!")
                     setOpen(true);
                     getCustomers();
                 }
@@ -123,7 +126,7 @@ export default function CustomerList() {
                 open={open}
                 autoHideDuration={3000}
                 onClose={() => setOpen(false)}
-                message='Customer deleted successfully' 
+                message={message} 
             />
         </>
     );

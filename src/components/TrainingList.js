@@ -12,7 +12,7 @@ export default function TrainingList() {
     const [open, setOpen] = useState(false);
 
     const [columnDefs] = useState([
-        {field: 'date', sortable: true, filter: true, valueFormatter: params => dayjs(params.value).format('DD/MM/YYYY')},
+        {field: 'date', sortable: true, filter: true, valueFormatter: params => dayjs(params.value).format('DD/MM/YYYY HH:mm')},
         {field: 'duration', sortable: true, filter: true},
         {field: 'activity', sortable: true, filter: true, width: 300},
         {field: 'customer.firstname', sortable: true, filter: true, width: 300},
