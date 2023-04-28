@@ -1,23 +1,20 @@
 import './App.css';
-import CustomerList from './components/CustomerList';
-import TrainingList from './components/TrainingList';
-import Home from './components/Home';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import TabList from './components/TabList';
+import Toolbar from '@mui/material/Toolbar';
+import { AppBar } from '@mui/material';
 
 function App() {
   return (
     <div className="App">
-        <BrowserRouter>
-          <Link to="/">Home</Link>{' '}
-          <Link to="/Customerlist">Customerlist</Link>{' '}
-          <Link to="/Traininglist">Traininglist</Link>{' '}
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route path="/Customerlist" element={<CustomerList />} />
-            <Route path="/Traininglist" element={<TrainingList />} />
-          </Routes>
-        </BrowserRouter>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6">
+            TrainingList
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <TabList />
     </div>
   );
 }
