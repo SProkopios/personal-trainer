@@ -8,7 +8,9 @@ import Snackbar from '@mui/material/Snackbar';
 import Button from '@mui/material/Button';
 import EditCustomer from './EditCustomer';
 import AddTraining from './AddTraining';
+import { CSVLink } from 'react-csv';
 
+//Displays the customer list
 export default function CustomerList() {
     const [customers, setCustomers] = useState([]);
     const [open, setOpen] = useState(false);
@@ -43,6 +45,16 @@ export default function CustomerList() {
         .catch(err => console.error(err))
     };
 
+    //Data to export in CSV
+    const csvExport = () => {
+        const csvData = customers.map((customer) => {
+          const { firstname, lastname, email, phone, streetaddress, city, postcode } = customer;
+          return [firstname, lastname, email, phone, streetaddress, city, postcode];
+        });
+        return csvData;
+      };
+
+      //Deletes the customer
     const deleteCustomer = (params) => {
         if (window.confirm('are you sure about that?'))
             fetch(params.data.links[0].href, { method: 'DELETE'})
@@ -58,6 +70,7 @@ export default function CustomerList() {
             .catch(err => console.error(err))
     }
 
+    // Adds new training for a customer
     const addTraining = (training) => {
         if (window.confirm('are you sure about that?'))
             fetch(ONETRAINING_URL, { 
@@ -77,6 +90,7 @@ export default function CustomerList() {
             .catch(err => console.error(err))
     }
 
+    //Adding a customer
     const addCustomer = (customer) => {
         fetch(CUSTOMER_URL, {
             method: 'POST',
@@ -93,6 +107,7 @@ export default function CustomerList() {
         .catch(err => console.error(err))
     }
 
+    // Updating or Editing the customer
     const updateCustomer = (customer, link) => {
         console.log(link)
         fetch(link, {
@@ -112,6 +127,7 @@ export default function CustomerList() {
 
     return(
         <>
+            
             <AddCustomer addCustomer={addCustomer} />
             <div className='ag-theme-material'
              style={{height: 750, width: '90%', margin: 'auto'}}
@@ -128,6 +144,9 @@ export default function CustomerList() {
                 onClose={() => setOpen(false)}
                 message={message} 
             />
+            <CSVLink data={csvExport()} filename={"customersCSV.csv"}>
+                Download CSV
+            </CSVLink>
         </>
     );
 }

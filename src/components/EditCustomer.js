@@ -6,6 +6,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
+
+//Edits the customer
 export default function EditCustomer(props) {
   const [open, setOpen] = React.useState(false);
   const [customer, setCustomer] = React.useState({
@@ -18,9 +20,8 @@ export default function EditCustomer(props) {
     phone: ''
     });
   
-
+    //gets and sets the customer info 
     const handleClickOpen = () => {
-      console.log(props.customer);
       setCustomer({firstname: props.customer.firstname, lastname: props.customer.lastname, streetaddress: props.customer.streetaddress,
         postcode:props.customer.postcode, city: props.customer.city, email: props.customer.email, phone: props.customer.phone})
       setOpen(true);
@@ -32,6 +33,7 @@ export default function EditCustomer(props) {
     }
     };
 
+  // Saves the customer info
   const handleSave = () => {
     props.updateCustomer(customer, props.customer.links[1].href);
     setOpen(false);

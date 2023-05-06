@@ -105,7 +105,7 @@ export default function AddCustomer(props) {
             variant="standard"
             label="Email"
           />
-            <TextField
+          <TextField
             margin="dense"
             name="phone"
             value={customer.phone}

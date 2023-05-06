@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import Button from '@mui/material/Button';
 import { TRAINING_URL } from './constants';
 import { ONETRAINING_URL } from './constants';
+import { CSVLink } from 'react-csv';
 
+
+// Displays list of trainings
 export default function TrainingList() {
     const [training, setTraining] = useState([]);
     const [open, setOpen] = useState(false);
@@ -30,10 +33,22 @@ export default function TrainingList() {
     const getTrainings = () => {
         fetch(TRAINING_URL)
         .then(response => response.json())
-        .then(data=>  setTraining(data))
+        .then(data=>  {setTraining(data);
+        console.log(data)})
         .catch(err => console.error(err))
     };
 
+    // Data to export in CSV
+    const csvExport = () => {
+        const csvData = training.map((train) => {
+          const { date, duration, activity, customer} = train;
+          const customersname = customer.firstname;
+          return [date, duration, activity, customersname];
+        });
+        return csvData;
+      };
+
+      //Deleting the training
     const deleteTraining = (params) => {
         if (window.confirm('are you sure about that?'))
             fetch(ONETRAINING_URL + params.data.id, { method: 'DELETE'})
@@ -59,6 +74,9 @@ export default function TrainingList() {
                 rowData={training}
                 columnDefs={columnDefs}/>
             </div>
+            <CSVLink data={csvExport()} filename={"trainingCSV.csv"}>
+                Download CSV
+            </CSVLink>
         </>
     );
 }
